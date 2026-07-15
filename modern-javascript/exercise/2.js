@@ -19,9 +19,8 @@ const bookWithTitle1984 = books.find(book => book.title === '1984');
 console.log(bookWithTitle1984); 
 
 //4. .sort() method and Arrow Functions
- const descendingOrder = books.sort((a, b) => b.ratings - a.ratings);
+ const descendingOrder = books.sort((book1, book2) => book2.ratings - book1.ratings);
 console.log(descendingOrder)
 
 //5. Chaining Methods
-const bookWithHighestRatings = books.sort((a, b) => b.ratings - a.ratings)[0].title;
-console.log(bookWithHighestRatings); 
+console.log(descendingOrder[0].title); 

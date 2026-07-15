@@ -9,7 +9,8 @@ const student = {
 };
 
 //1.
-const { id,name,courses, parents:{father,mother} } = student
+const { id,name,courses } = student
+const {  parents:{father,mother} } = student
 console.log(id); // 101
 console.log(name); // John Doe 
 console.log(father); // Mr. Doe
@@ -24,8 +25,8 @@ console.log(arr4)
 
 //3. Destructuring and Spread Together
 // const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-// const firstHalf =[n1, n2, n3, n4, n5]
 // const [n1,n2,n3,n4,n5, ...secondHalf] = numbers
+// const firstHalf =[n1, n2, n3, n4, n5]
 // console.log(firstHalf) 
 // console.log(secondHalf)
 

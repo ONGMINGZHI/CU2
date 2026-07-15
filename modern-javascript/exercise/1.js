@@ -13,13 +13,15 @@ numbers.forEach((number) => {
 })
 
 //4. .find() method and Arrow Functions
+numbers.push(6)
 const firstDivisibleByThree = numbers.find(num => num % 3 === 0);
 
 console.log(firstDivisibleByThree); 
 
 //5. Chaining Methods
+numbers.pop()
 const squaredGreaterThanTwo = numbers
   .filter(num => num > 2)
-  .map(num => num * num);
+  .map(num => num **2);
 
 console.log(squaredGreaterThanTwo); // Output: [9, 16, 25]
