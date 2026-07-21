@@ -1,0 +1,199 @@
+Example 1: Array Processing (Discounting Prices)
+Without a Callback
+The function takes an array of numbers and a fixed logic hardcoded inside it.
+
+// NO CALLBACK
+function applyTenPercentDiscount(prices) {
+  const discounted = [];
+  for (let price of prices) {
+    // Logic is fixed inside the function
+    discounted.push(price * 0.9); 
+  }
+  return discounted;
+}
+
+const originalPrices = [100, 200, 300];
+console.log(applyTenPercentDiscount(originalPrices)); 
+// Outputs: [90, 180, 270]
+With a Callback
+The function takes an array and a custom rule function, making it reusable for any calculation.
+
+// WITH CALLBACK
+function processPrices(prices, discountRule) {
+  const result = [];
+  for (let price of prices) {
+    // Delegate the math to the callback function
+    result.push(discountRule(price)); 
+  }
+  return result;
+}
+
+const originalPrices = [100, 200, 300];
+
+// Custom rule 1: 10% off
+const tenPercentOff = (price) => price * 0.9;
+// Custom rule 2: $15 flat discount
+const fifteenDollarsOff = (price) => price - 15;
+
+console.log(processPrices(originalPrices, tenPercentOff));     // [90, 180, 270]
+console.log(processPrices(originalPrices, fifteenDollarsOff)); // [85, 185, 285]
+Example 2: Filtering Data
+Without a Callback
+You pass data filters as static parameters like strings or numbers.
+
+// NO CALLBACK
+function filterEvenNumbers(numbers) {
+  const evens = [];
+  for (let num of numbers) {
+    if (num % 2 === 0) {
+      evens.push(num);
+    }
+  }
+  return evens;
+}
+
+console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6])); 
+// Outputs: [2, 4, 6]
+With a Callback
+You pass a condition function (often called a predicate). This is actually how JavaScript's built-in .filter() method works under the hood!
+
+// WITH CALLBACK
+function customFilter(array, testCallback) {
+  const filteredArray = [];
+  for (let item of array) {
+    // Run the item through the callback function to test if it passes (returns true)
+    if (testCallback(item)) {
+      filteredArray.push(item);
+    }
+  }
+  return filteredArray;
+}
+
+const numbers = [1, 2, 3, 4, 5, 6];
+
+// Test 1: Keep numbers > 3
+const greaterThanThree = customFilter(numbers, (num) => num > 3);
+console.log(greaterThanThree); // [4, 5, 6]
+
+// Test 2: Keep odd numbers
+const oddNumbers = customFilter(numbers, (num) => num % 2 !== 0);
+console.log(oddNumbers); // [1, 3, 5]
+Example 3: User Authentication / Event Handling
+Without a Callback
+The function handles all actions directly. If you want to change what happens after logging in, you have to modify the original function.
+
+// NO CALLBACK
+function loginUser(username) {
+  console.log(`User ${username} logged in successfully.`);
+  // Hardcoded notification logic
+  console.log(`Sending welcome email to ${username}...`);
+}
+
+loginUser("Alice");
+With a Callback
+The function logs the user in, then calls whatever action you pass into it (e.g., redirecting to a dashboard, logging analytics, or sending an email).
+
+// WITH CALLBACK
+function loginUser(username, onSuccessCallback) {
+  console.log(`User ${username} logged in successfully.`);
+  // Run the callback passed in
+  onSuccessCallback(username);
+}
+
+const redirectToDashboard = (user) => {
+  console.log(`Redirecting ${user} to /dashboard...`);
+};
+
+const sendNotification = (user) => {
+  console.log(`Sending push notification to ${user}'s phone...`);
+};
+
+// Admin logs in -> redirect
+loginUser("Alice", redirectToDashboard);
+
+// Regular user logs in -> notify
+loginUser("Bob", sendNotification);
+
+//Key Takeaways
+Feature	Without Callback	With Callback
+What is passed?	Values (Strings, Numbers, Objects)	Executable Functions
+Flexibility	Rigid — internal logic is hardcoded	Flexible — dynamic behavior passed from outside
+Primary Use Cases	Direct data transformations, simple computations	Asynchronous tasks (timers, API calls), event handling, custom iterations
+exercises?
+
+Here are three practical exercises to test your understanding of callbacks vs. no-callbacks.
+
+Try writing the code for these yourself, just like you did with your addition and name examples!
+
+//Exercise 1: The Number Modifier
+The Goal: Practice converting static logic into a dynamic callback system.
+
+Part A (No Callback): Create a function called doubleNumber(num) that simply returns the number multiplied by 2.
+
+Part B (With Callback): Create a function called modifyNumber(num, callback). Then, call modifyNumber twice:
+
+Pass a callback that triples the number.
+
+Pass a callback that divides the number by 2.
+
+//Exercise 2: The E-Commerce Tax Calculator
+The Goal: Learn how callbacks handle different mathematical rules dynamically based on regions.
+
+Part A (No Callback): Create a function called calculateUSATax(price) that returns the price plus a flat 10% tax.
+
+Part B (With Callback): Create a function called checkout(price, taxCallback).
+
+It should compute the final price using the callback and console log: "The final price after tax is $X".
+
+Test it by passing a custom callback for UK Tax (20%) and another for Malaysia Tax (6%).
+
+//Exercise 3: The Secret Agent (Asynchronous)
+The Goal: Practice using callbacks to handle delayed, asynchronous actions (like your dummyDownload example).
+
+Write a function called decryptMessage(encryptedText, callback).
+
+Inside this function, use setTimeout to simulate a 3-second delay.
+
+While it's "decrypting", immediately console log: "Decrypting files...".
+
+After 3 seconds, convert the encryptedText to all uppercase letters, and pass that uppercase result into the callback function.
+
+To test it: Call decryptMessage("meet me at midnight", (decrypted) => { console.log("Decrypted Message: " + decrypted) }).
+
+Here is the structural formula:
+
+// 1. THE DEFINITION (The Maker)
+function functionName(dataParameter, callbackParameter) {
+    // ... do some work with dataParameter ...
+    
+    // Execute the callback and pass data INTO it
+    callbackParameter(resultData); 
+}
+
+// 2. THE EXECUTION (The User)
+functionName(actualData, function(result) {
+    // ... do something with the result ...
+});
+The 3 Golden Rules of the Formula:
+The Parameter Rule: When defining your main function, one of its parameters is just a placeholder variable name for a future function (usually named callback, cb, or something descriptive like onComplete).
+
+The Execution Rule: Inside the main function, you treat that placeholder parameter like a function by adding parentheses to it: callback().
+
+The Passing Rule: When you finally call the main function, you must pass an actual, executable function into that slot. Do not add parentheses () to the callback when passing it, or it will execute too early.
+
+The Formula in Action
+Let's look at how the formula applies to a simple math operation:
+
+// 1. Defining the function (Setting up the formula)
+function calculate(num1, num2, operationsCallback) {
+    const result = num1 + num2;
+    
+    // Using the callback formula: executing it with data
+    operationsCallback(result); 
+}
+
+// 2. Calling the function (Plugging behavior into the formula)
+calculate(10, 5, function(total) {
+    console.log(`The total is ${total}`);
+});
+
