@@ -1,20 +1,52 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
-import "./App.css";
-import TodoList from "./TodoList";
 import AddTodoForm from "./AddTodoForm";
+import TodoList from "./Todolist";
+
 function App() {
-    const [count, setCount] = useState(0);
+    const [todos, setTodos] = useState([
+        {
+            id: 1,
+            label: "Task 1",
+            isCompleted: true,
+        },
+        {
+            id: 2,
+            label: "Task 2",
+            isCompleted: false,
+        },
+        {
+            id: 3,
+            label: "Task 3",
+            isCompleted: false,
+        },
+    ]);
+
+    const toggleIsCompleted = (taskId) => {
+        setTodos(todos.map((todo) => (todo.id === taskId ? { ...todo, isCompleted: !todo.isCompleted } : todo)));
+    }
+
+    const deleteTodo = (id) => {
+        setTodos(todos.filter((todo) => todo.id != id))
+    }
+    
+    const addToDo = (label) => {
+        setTodos([...todos,
+            {
+                id: todos.length + 1,
+                label: label,
+                isCompleted: false
+            }
+        ])
+    }
+
 
     return (
         <>
             <div className="card rounded shadow-sm" style={{ maxWidth: "500px", margin: "60px auto" }}>
                 <div className="card-body">
                     <h3 className="card-title mb-3">My Todo List</h3>
-                    <TodoList />
-                    <AddTodoForm />
+                    <TodoList todos={todos} toggleIsCompleted={toggleIsCompleted} deleteTodo={deleteTodo} />
+                    <AddTodoForm addToDo={addToDo} />
                 </div>
             </div>
         </>
