@@ -1,0 +1,34 @@
+/* Global reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Global page style */
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+
+body {
+    font-family: "Poppins", "Roboto", Arial, sans-serif;
+    background-color: #f5f7fb;
+    color: #1f2937;
+}
+
+
+/* Remove default link styling */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* Better button cursor */
+button {
+    cursor: pointer;
+}
