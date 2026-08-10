@@ -1,18 +1,10 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Box, Switch } from "@mui/material";
 import { Link } from "react-router";
 
-
-function Navbar() {
-
+function Navbar({ darkMode, setDarkMode }) {
     return (
-
-        <AppBar 
-            position="static"
-            elevation={2}
-        >
-
+        <AppBar position="static" elevation={2}>
             <Toolbar>
-
                 <Typography
                     variant="h6"
                     component={Link}
@@ -27,7 +19,6 @@ function Navbar() {
                     🎬 Watchlist
                 </Typography>
 
-
                 {/* Navigation Links */}
                 <Box
                     sx={{
@@ -35,33 +26,18 @@ function Navbar() {
                         gap: 1,
                     }}
                 >
-
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/"
-                    >
+                    <Button color="inherit" component={Link} to="/">
                         Dashboard
                     </Button>
 
-
-                    <Button
-                        color="inherit"
-                        component={Link}
-                        to="/stats"
-                    >
+                    <Button color="inherit" component={Link} to="/stats">
                         Stats
                     </Button>
-
+                    <Switch checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
                 </Box>
-
-
             </Toolbar>
-
         </AppBar>
-
     );
 }
-
 
 export default Navbar;

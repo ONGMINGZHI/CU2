@@ -19,14 +19,14 @@ export function WatchlistProvider({ children }) {
                 item.id === updatedTitle.id ? updatedTitle : item
             )
         );//use .map to make sure the id is correct
-    };//edit old movie/series
+    };//edit old movie/series-WatchlistDetail
 
     const deleteTitle = (id) => {
         setWatchlist((prev) =>
             prev.filter((item) => item.id !== id)
-        //use .filter so everything remains except the selected id
+        //use .filter so it only removew the matching item
         );
-    };//remove movie/series
+    };//remove movie/series-WatchlistCard
 
     return (
         <WatchlistContext.Provider
@@ -35,6 +35,7 @@ export function WatchlistProvider({ children }) {
                 addTitle,
                 updateTitle,
                 deleteTitle,
+                //These can be shared
             }}
         >
             {children}

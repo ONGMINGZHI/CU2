@@ -4,6 +4,7 @@ import { useWatchlist } from "../context/WatchlistContext";
 import { Link } from "react-router";
 
 function WatchlistCard({ movie, onEdit, showSnackbar }) {
+    //use props from-Dashboard177
     const [confirmOpen, setConfirmOpen] = useState(false);
     const { deleteTitle } = useWatchlist();
 
@@ -30,7 +31,7 @@ function WatchlistCard({ movie, onEdit, showSnackbar }) {
                 <CardContent>
                     <Stack spacing={1.5}>
                         <Typography variant="h6" fontWeight="bold">
-                             {movie.title}
+                            {movie.title}
                         </Typography>
 
                         <Typography color="text.secondary">{movie.type === "movie" ? "🎬 Movie" : "📺 Series"}</Typography>
@@ -59,7 +60,7 @@ function WatchlistCard({ movie, onEdit, showSnackbar }) {
                     </Button>
 
                     <Button size="small" onClick={() => onEdit(movie)}>
-                        Edit
+                        Edit {/* handleEdit(movie)-Dashboard76  */}
                     </Button>
 
                     <Button size="small" color="error" onClick={() => setConfirmOpen(true)}>

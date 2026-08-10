@@ -1,4 +1,6 @@
-import { Container, Typography, Card, CardContent, Grid } from "@mui/material";
+import { Box, Card, CardContent, Chip, Container, Divider, Grid, LinearProgress, Paper, Stack, Typography } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useWatchlist } from "../context/WatchlistContext";
 
 function Stats() {
@@ -20,9 +22,19 @@ function Stats() {
 
     const averageRating = ratings.length > 0 ? (ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length).toFixed(1) : "N/A";
 
+    const reviewCount = watchlist.filter((item) => item.review?.trim()).length;
+
+    const topRated = [...watchlist].filter((item) => item.rating).sort((a, b) => b.rating - a.rating)[0];
+
+    const genreCounts = {};
+
+    watchlist.forEach((item) => {
+        genreCounts[item.genre] = (genreCounts[item.genre] || 0) + 1;
+    });
+
     return (
         <Container sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" sx={{ mt: 2, pb: 2 }} fontWeight="bold">
                 Watchlist Statistics
             </Typography>
 
@@ -57,36 +69,6 @@ function Stats() {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card>
-                        <CardContent>
-                            <Typography>Watched</Typography>
-
-                            <Typography variant="h5">{watched}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card>
-                        <CardContent>
-                            <Typography>Watching</Typography>
-
-                            <Typography variant="h5">{watching}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                    <Card>
-                        <CardContent>
-                            <Typography>Plan To Watch</Typography>
-
-                            <Typography variant="h5">{planToWatch}</Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
                 <Grid item xs={12}>
                     <Card>
                         <CardContent>
@@ -96,7 +78,78 @@ function Stats() {
                         </CardContent>
                     </Card>
                 </Grid>
+                <Grid item xs={12}>
+                    <Card>
+                        <CardContent>
+                            <Typography>Reviews</Typography>
+
+                            <Typography variant="h5">{reviewCount}</Typography>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </Grid>
+            <Divider sx={{ my: 5 }} />
+
+            <Typography variant="h5" mb={3}>
+                Status Overview
+            </Typography>
+
+            <Stack direction="row" spacing={2} flexWrap="wrap">
+                <Grid container spacing={2}>
+                    <Chip color="success" label={`Watched (${watched})`} />
+
+                    <Chip color="warning" label={`Watching (${watching})`} />
+
+                    <Chip color="default" label={`Plan To Watch (${planToWatch})`} />
+                </Grid>
+            </Stack>
+
+            <Divider sx={{ my: 5 }} />
+
+            <Typography variant="h5" mb={2}>
+                Genre
+            </Typography>
+            {Object.entries(genreCounts).map(([genre, count]) => (
+                <Paper
+                    key={genre}
+                    sx={{
+                        p: 2,
+                        mb: 2,
+                    }}
+                >
+                    <Stack direction="row" justifyContent="space-between">
+                        <Typography>{genre}</Typography>
+
+                        <Typography fontWeight="bold"> ( {count} )</Typography>
+                    </Stack>
+
+                    <LinearProgress
+                        variant="determinate"
+                        value={(count / watchlist.length) * 100}
+                        sx={{
+                            mt: 1,
+                            height: 10,
+                            borderRadius: 5,
+                        }}
+                    />
+                </Paper>
+            ))}
+            <Divider sx={{ my: 5 }} />
+
+            <Card>
+                <CardContent>
+                    <Stack spacing={1} alignItems="center">
+                        <EmojiEventsIcon color="warning" sx={{ fontSize: 50 }} />
+
+                        <Typography variant="h5">Top Rated</Typography>
+
+                        <Typography variant="h4">{topRated?.title ?? "No ratings yet"}</Typography>
+
+                        <Typography>⭐ {topRated?.rating ?? "-"} / 10</Typography>
+                    </Stack>
+                </CardContent>
+            </Card>
+            <Divider sx={{ my: 5 }} />
         </Container>
     );
 }

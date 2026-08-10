@@ -6,15 +6,7 @@ function FilterPanel({ filters, setFilters }) {
             <FormControl size="small">
                 <InputLabel>Type</InputLabel>
 
-                <Select
-                    value={filters.type}
-                    label="Type"
-                    onChange={(e) =>
-                        setFilters({
-                            ...filters,
-                            type: e.target.value,
-                        })
-                    }
+                <Select value={filters.type} label="Type" onChange={(e) => setFilters({ ...filters, type: e.target.value, })}
                 >
                     <MenuItem value="all">All</MenuItem>
 

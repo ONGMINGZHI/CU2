@@ -19,6 +19,17 @@ function WatchlistDetail() {
         }
     }, [movie]);
     const handleSaveReview = () => {
+        // Review validation
+        if (review.length > 500) {
+            setSnackbar({
+                open: true,
+                message: "Whoa! That's a whole movie script 📜 Keep it under 500 characters.",
+                severity: "error",
+            });
+            return;
+        }
+
+        // Watched date validation
         if (watchedOn) {
             const selectedDate = new Date(watchedOn);
             const today = new Date();
@@ -51,7 +62,7 @@ function WatchlistDetail() {
 
         setSnackbar({
             open: true,
-            message: "Review saved successfully!",
+            message: "Review saved successfully! ⭐",
             severity: "success",
         });
     };
@@ -97,8 +108,7 @@ function WatchlistDetail() {
                                 </Typography>
                             )}
 
-                            <TextField multiline rows={5} fullWidth placeholder="Write your thoughts about this title..." value={review} onChange={(e) => setReview(e.target.value)} inputProps={{ maxLength: 500 }} helperText={`${review.length}/500 characters`} />
-
+                            <TextField multiline rows={5} value={review} onChange={(e) => setReview(e.target.value)} slotProps={{ htmlInput: { maxLength: 500 } }} error={review.length > 500} helperText={`${review.length}/500 characters`} />
                             <Stack spacing={1}>
                                 <Typography variant="body2" fontWeight={500}>
                                     Watched On

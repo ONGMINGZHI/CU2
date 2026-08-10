@@ -9,6 +9,8 @@ function SortMenu({ sort, setSort }) {
                 <MenuItem value="none">Default</MenuItem>
 
                 <MenuItem value="title">Title A-Z</MenuItem>
+                
+                <MenuItem value="genre">Genre A-Z</MenuItem>
 
                 <MenuItem value="year">Newest Release</MenuItem>
 

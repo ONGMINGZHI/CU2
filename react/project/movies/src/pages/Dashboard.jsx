@@ -27,6 +27,9 @@ function Dashboard() {
         if (sort === "title") {
             return a.title.localeCompare(b.title);
         }
+        if (sort === "genre") {
+            return a.genre.localeCompare(b.genre);
+        }
 
         if (sort === "year") {
             return Number(b.releaseYear) - Number(a.releaseYear);
@@ -74,6 +77,22 @@ function Dashboard() {
         setSelectedItem(movie);
         setOpen(true);
     };
+    const [randomPick, setRandomPick] = useState(null);
+    const handleRandomPick = () => {
+        const candidates = watchlist.filter((movie) => movie.status === "Plan to Watch");
+
+        if (candidates.length === 0) {
+            setRandomPick(null);
+
+            showSnackbar("No movies waiting for you yet! Add something to your watchlist first 🎬");
+
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * candidates.length);
+
+        setRandomPick(candidates[randomIndex]);
+    };
 
     return (
         <Container maxWidth="lg">
@@ -85,14 +104,46 @@ function Dashboard() {
                     mb: 4,
                 }}
             >
-                <Typography variant="h4" fontWeight="bold">
+                <Typography variant="h4" sx={{ mt: 2, pb: 2 }} fontWeight="bold">
                     Movie & Series Watchlist
                 </Typography>
 
-                <Button variant="contained" onClick={handleOpen}>
-                    Add Title
-                </Button>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                    <Button variant="contained" onClick={handleOpen}>
+                        Add Title
+                    </Button>
+
+                    <Button variant="outlined" onClick={handleRandomPick}>
+                        🎲 Random Pick
+                    </Button>
+                </Box>
             </Box>
+            {randomPick && (
+                <Paper
+                    elevation={4}
+                    sx={{
+                        p: 3,
+                        mb: 4,
+                        borderRadius: 3,
+                    }}
+                >
+                    <Typography variant="h5" fontWeight="bold">
+                        🎲 Tonight's Recommendation
+                    </Typography>
+
+                    <Typography variant="h4" sx={{ mt: 2 }}>
+                        {randomPick.title}
+                    </Typography>
+
+                    <Typography>🎭 Genre: {randomPick.genre || "Unknown"}</Typography>
+
+                    <Typography>📅 Release Year: {randomPick.releaseYear}</Typography>
+
+                    <Typography>⭐ Rating: {randomPick.rating || "Not Rated"}/10</Typography>
+
+                    <Typography sx={{ mt: 2 }}>🍿 Looks like a great choice for your next watch!</Typography>
+                </Paper>
+            )}
             <Box
                 sx={{
                     display: "flex",
