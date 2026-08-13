@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 //useEffect = save the changes to localStorage
-//useState = store the watchlist state
+//useState = store & update the watchlist state
 
 const STORAGE_KEY = "watchlist";
 

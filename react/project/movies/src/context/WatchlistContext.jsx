@@ -18,13 +18,13 @@ export function WatchlistProvider({ children }) {
             prev.map((item) =>
                 item.id === updatedTitle.id ? updatedTitle : item
             )
-        );//use .map to make sure the id is correct
+        );//use .map to replace only the item that have matching id
     };//edit old movie/series-WatchlistDetail
 
     const deleteTitle = (id) => {
         setWatchlist((prev) =>
             prev.filter((item) => item.id !== id)
-        //use .filter so it only removew the matching item
+        //use .filter to create a new array with everything 除了 the item wuth selected id
         );
     };//remove movie/series-WatchlistCard
 
